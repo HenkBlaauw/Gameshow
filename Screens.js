@@ -1,7 +1,4 @@
 module.exports = {
-    
-    
-
     displayMenuForScreen(screen) {
         i = 0;
         if (screen == 0) {
@@ -13,11 +10,5 @@ module.exports = {
         else if (screen == 2) {
             console.log("This is the last player's score");
         }
-        else if (screen == 3){
-            /* console.log(json[state.questions[i]]["question"]);
-            console.log(json[state.questions[i]]["answers"])
- */            
-            }
-        }
-
     }
+}

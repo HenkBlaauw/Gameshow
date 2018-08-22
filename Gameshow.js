@@ -7,17 +7,6 @@ var data = fs.readFileSync('Questions.json', 'utf-8');
 json = JSON.parse(data)
 var myQuestions = json;
 
-//clearing the terminal
-// console.log('\033c');
- 
-/*
-for (i = 0; i < util.getRandomNumbs().length; i++) {
-    randQuestionsMain[i] = util.getRandomNumbs()[i];
-    console.log(randQuestionsMain[i]);
-} */
-
-
-
 var Screens = {
     main_menu: 0,
     new_game: 1,
@@ -27,13 +16,10 @@ var Screens = {
 var state = new State();
 state.initialize(Screens.main_menu);
 
-//console.log(json[0]["question"]);
 for (i = 0; i <= 10; i++) {
     ranValue = util.getRandomNumbs();
     state.questions.push(ranValue);
-    //state.questions.push(json[util.getRandomNumbs()]["question"]);
 }
-//var Questions = getRandomNumbs();
 
 var correct = 0;
 
@@ -48,8 +34,6 @@ var currentEdit = "";
 answered = 0;
 arrayVal = 0;
 stdin.addListener("data", function (a) {
-    console.log('\033c');
-    //console.log("HEREE" + json[answered]["correctAnswer"].charAt(0));
     if (state.getCurrentScreen() == Screens.main_menu) {
 
         if (isNaN(a)) {
@@ -58,25 +42,23 @@ stdin.addListener("data", function (a) {
             console.log(" ************************************\n  **********************************");
             console.log("   Welcome to the wonderful gameshow!")
             console.log("  **********************************\n ************************************");
-
             state.setCurrentScreen(Screens.main_menu);
         }
 
         else if (a == 1 || a == '1') {
             state.setCurrentScreen(Screens.new_game);
-            
             correct = 0;
-            
+
         }
         else if (a == 2 || a == '2') {
-            console.log("You had " + correct +" correct");
-            if(correct < 5){
+            console.log("You had " + correct + " correct");
+            if (correct < 5) {
                 console.log("No man...try again..do better");
             }
-            else if(correct >= 5 && correct <= 7){
+            else if (correct >= 5 && correct <= 7) {
                 console.log("Well done, you did good!");
             }
-            else if(correct > 7){
+            else if (correct > 7) {
                 console.log("You did great!");
             }
         }
@@ -84,7 +66,7 @@ stdin.addListener("data", function (a) {
             console.log("Hope you enjoyed! See you soon!");
             process.exit();
         }
-        else if (a> 3){
+        else if (a > 3) {
             console.log('\033c');
             console.log("Please enter a number that's in the menu!");
             console.log(" ************************************\n  **********************************");
@@ -94,44 +76,34 @@ stdin.addListener("data", function (a) {
             state.setCurrentScreen(Screens.main_menu);
         }
     }
-    /*  else if (state.getCurrentScreen() == Screens.new_game) {
-         console.log("Reached new game");
- 
- 
-         //console.log('\033c');
-         state.setCurrentScreen(Screens.in_game);
-     } */
-
-    else if(state.getCurrentScreen() == Screens.new_game){
+    else if (state.getCurrentScreen() == Screens.new_game) {
         console.log(json[state.questions[arrayVal]]["question"]);
         console.log(json[state.questions[arrayVal]]["answers"]);
         state.setCurrentScreen(Screens.in_game);
     }
 
     else if (state.getCurrentScreen() == Screens.in_game) {
-            if (a.toString().trim().toUpperCase() == json[state.questions[arrayVal]]["correctAnswer"].charAt(0)) {
-                console.log("Correct!");
-                correct++;
-                answered++;
-                arrayVal++;
-            }
-            else {
-                console.log("Wrong");
-                console.log("Correct answer is: " +json[state.questions[arrayVal]]["correctAnswer"]);
-                answered++;
-                arrayVal++;
-            }
-        
-        if(answered == 10){
-            console.log('\033c');
-        state.setCurrentScreen(Screens.main_menu);
-        answered = 0;
-        
+        if (a.toString().trim().toUpperCase() == json[state.questions[arrayVal]]["correctAnswer"].charAt(0)) {
+            console.log("Correct!");
+            correct++;
+            answered++;
+            arrayVal++;
         }
-        else{
+        else {
+            console.log("Wrong");
+            console.log("Correct answer is: " + json[state.questions[arrayVal]]["correctAnswer"]);
+            answered++;
+            arrayVal++;
+        }
+
+        if (answered == 10) {
+            console.log('\033c');
+            state.setCurrentScreen(Screens.main_menu);
+            answered = 0;
+        }
+        else {
             state.setCurrentScreen(Screens.new_game);
         }
     }
     screen.displayMenuForScreen(state.getCurrentScreen());
 });
-//console.log(randQuestions);
